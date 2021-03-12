@@ -19,6 +19,10 @@ func SearchByID(id string) []model.Doc {
 	return result
 }
 
+func SearchByConditions(m map[string] string) ([]model.Doc, error){
+	return getCsvService().SearchByConditions(m)
+}
+
 func getSearchService() service.Search {
 	if search == nil {
 		log.Info("wiring search service")

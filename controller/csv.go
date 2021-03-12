@@ -7,8 +7,8 @@ import (
 
 var csvService service.CsvService
 
-func LoadCsvData() error {
-	return getCsvService().DownloadCsvData()
+func LoadCsvData(topic string) error {
+	return getCsvService().DownloadCsvData(topic)
 }
 
 func getCsvService () service.CsvService {

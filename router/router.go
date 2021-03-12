@@ -29,12 +29,24 @@ func SetRouter(e *echo.Echo) {
 	})
 
 	e.GET("/filter", func(c echo.Context) error {
-		id := c.QueryParam("id")
-		if id == "" {
-			return reportMessage(c, "Missing parameter 'id'")
+		// id := c.QueryParam("id")
+		params := c.QueryParams()
+
+		conditions := make(map[string] string)
+
+		for k, v := range params {
+			conditions[k] = v[0]
 		}
 
-		result := controller.SearchByID(id)
+		if len(conditions) == 0 {
+			return reportMessage(c, "No filters were provided")
+		}
+
+		result, err := controller.SearchByConditions(conditions)
+		if err != nil {
+			return reportMessage(c, "Could not perform search")
+		}
+
 		if len(result) == 0 {
 			return reportMessage(c, "No records found")
 		}
@@ -42,7 +54,11 @@ func SetRouter(e *echo.Echo) {
 	})
 
 	e.GET("/loadData", func(c echo.Context) error {
-		err := controller.LoadCsvData()
+		topic := c.QueryParam("topic")
+		if topic == "" {
+			return reportMessage(c, "Missing parameter 'topic'")
+		}
+		err := controller.LoadCsvData(topic)
 		if err != nil {
 			return reportMessage(c, "Data was not able to load")
 		}

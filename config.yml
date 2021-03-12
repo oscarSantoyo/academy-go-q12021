@@ -8,4 +8,4 @@ CSV:
   FileName: /home/omar/Desktop/saved.csv
 
 external:
-  ApiUrl: http://openlibrary.org/search.json?q=the+lord+of+the+rings&page=1
+  ApiUrl: http://openlibrary.org/search.json?q=<topic>&page=<page>

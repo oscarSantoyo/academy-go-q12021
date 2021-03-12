@@ -15,10 +15,7 @@ func init() {
 }
 
 func main() {
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
-	if err := viper.ReadInConfig(); err != nil {
+	if err := setEnv(); err != nil {
 		message := "There was an error reading the configuration file"
 		log.Fatal(message, err)
 		panic(message)
@@ -32,4 +29,11 @@ func startServer() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	router.SetRouter(e)
+}
+
+func setEnv() error {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+	return viper.ReadInConfig();
 }
